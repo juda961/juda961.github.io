@@ -21,6 +21,11 @@ h1 {
     color: #0078D7;
 }
 
+h2 {
+    color: #005fa3;
+    margin-top: 30px;
+}
+
 p {
     text-align: center;
     font-size: 16px;
@@ -28,13 +33,18 @@ p {
 }
 
 /* --- Inputs y botones --- */
+.input-wrapper {
+    position: relative; /* Para que el dropdown se posicione correctamente */
+    margin-bottom: 20px;
+}
+
 input[type="text"], input[type="number"] {
-    width: calc(100% - 24px);
+    width: 100%;
     padding: 10px 12px;
-    margin: 8px 0 15px 0;
     border: 1px solid #ccc;
     border-radius: 8px;
     font-size: 16px;
+    box-sizing: border-box;
 }
 
 button {
@@ -46,13 +56,14 @@ button {
     font-size: 16px;
     cursor: pointer;
     transition: background 0.2s;
+    margin-top: 10px;
 }
 
 button:hover {
     background-color: #005fa3;
 }
 
-/* --- Resultado --- */
+/* --- Resultados --- */
 #resultado-lhopital, #resultado-derivada {
     margin-top: 20px;
     padding: 15px;
@@ -74,16 +85,18 @@ button:hover {
 
 /* --- Autocomplete dropdown estilo profesional --- */
 .autocomplete-list {
-    position: absolute;
+    position: absolute;   /* relativo al padre */
+    top: 100%;            /* justo debajo del input */
+    left: 0;
     background: #ffffff;
     border: 1px solid #ccc;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     max-height: 200px;
     overflow-y: auto;
-    width: calc(100% - 24px);
+    width: 100%;          /* igual que el input */
     z-index: 1000;
-    margin-top: 5px;
+    margin-top: 2px;      /* pequeño espacio debajo del input */
     font-size: 16px;
 }
 
@@ -93,13 +106,7 @@ button:hover {
     transition: background 0.2s, color 0.2s;
 }
 
-.autocomplete-list div:hover {
-    background-color: #0078D7;
-    color: white;
-    border-radius: 6px;
-}
-
-/* --- Opción activa para teclado --- */
+.autocomplete-list div:hover,
 .autocomplete-active {
     background-color: #0078D7;
     color: white;
@@ -116,6 +123,12 @@ button:hover {
     border-radius: 6px;
 }
 
-.explicacion b {
-    color: #005fa3;
+/* --- Línea separadora elegante --- */
+hr {
+    border: none;               /* quitar borde por defecto */
+    height: 2px;                /* grosor de la línea */
+    background-color: #0078D7;  /* color azul */
+    width: 80%;                 /* ancho relativo al contenedor */
+    margin: 30px auto;          /* centrado y espacio arriba/abajo */
+    border-radius: 1px;         /* bordes redondeados sutiles */
 }
