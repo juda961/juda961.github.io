@@ -3,22 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora Matemática</title>
+    <title>Calculadora Matemática PRO</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
     <div class="container">
-        <h1>Calculadora Matemática</h1>
+        <h1>Calculadora Matemática PRO</h1>
 
         <!-- Límite con L'Hôpital -->
         <div class="card">
             <h2>Límites con L'Hôpital</h2>
-            <p>Introduce las funciones f(x) y g(x) y el valor al que x tiende:</p>
+            <p>Introduce f(x), g(x) y el valor al que x tiende:</p>
             <label>f(x):</label>
-            <input type="text" id="fx" placeholder="Ej: sin(x)">
+            <input type="text" id="fx" placeholder="Ej: sin(x)" class="autocomplete">
             <label>g(x):</label>
-            <input type="text" id="gx" placeholder="Ej: x">
+            <input type="text" id="gx" placeholder="Ej: x" class="autocomplete">
             <label>Valor de x →</label>
             <input type="number" id="x0" placeholder="Ej: 0">
             <button onclick="calcularLHopital()">Calcular límite</button>
@@ -28,16 +29,16 @@
         <!-- Derivadas generales -->
         <div class="card">
             <h2>Derivadas generales</h2>
-            <p>Introduce la función f(x) que deseas derivar:</p>
+            <p>Introduce f(x) que deseas derivar:</p>
             <label>f(x):</label>
-            <input type="text" id="f-deriv" placeholder="Ej: x^3 + sin(x)">
+            <input type="text" id="f-deriv" placeholder="Ej: x^3 + sin(x)" class="autocomplete">
             <button onclick="calcularDerivada()">Calcular derivada</button>
             <div id="resultado-derivada" class="resultado"></div>
         </div>
 
         <!-- Instrucciones -->
         <div class="card instructions">
-            <h2>Cómo escribir las funciones (Math.js)</h2>
+            <h2>Cómo escribir las funciones</h2>
             <ul>
                 <li><b>Potencias:</b> x^2, x^n</li>
                 <li><b>Raíz cuadrada:</b> sqrt(x)</li>
@@ -45,19 +46,33 @@
                 <li><b>Trigonometría:</b> sin(x), cos(x), tan(x)</li>
                 <li><b>Logaritmos:</b> log(x) → natural, log10(x) → base 10, log(x, n) → base n</li>
                 <li><b>Exponenciales:</b> exp(x) → e^x</li>
-                <li><b>Ejemplo de L'Hôpital:</b> f(x) = sin(x), g(x) = x, x → 0</li>
-                <li><b>Ejemplo de derivada:</b> f(x) = x^3 + sin(x) → f'(x) = 3x^2 + cos(x)</li>
             </ul>
         </div>
     </div>
 
-    <!-- Scripts -->
     <script>
+    // Lista de sugerencias para autocompletar
+    const funciones = ['sin(', 'cos(', 'tan(', 'log(', 'log10(', 'sqrt(', 'exp(', 'x'];
+
+    function autocomplete(input) {
+        input.addEventListener('input', () => {
+            let val = input.value;
+            funciones.forEach(func => {
+                if (func.startsWith(val) && val !== func) {
+                    input.value = func;
+                }
+            });
+        });
+    }
+
+    document.querySelectorAll('.autocomplete').forEach(input => autocomplete(input));
+
     // Límite con L'Hôpital
     function calcularLHopital() {
         let fx = document.getElementById("fx").value;
         let gx = document.getElementById("gx").value;
         let x0 = parseFloat(document.getElementById("x0").value);
+        let resDiv = document.getElementById("resultado-lhopital");
 
         try {
             let fVal = math.evaluate(fx, {x: x0});
@@ -70,22 +85,23 @@
                 let gDerVal = math.evaluate(gDer, {x: x0});
                 let resultado = fDerVal / gDerVal;
 
-                let resDiv = document.getElementById("resultado-lhopital");
-                resDiv.innerHTML =
-                    `<b>Forma 0/0 detectada.</b><br>
-                     f'(x) = ${fDer} <br>
-                     g'(x) = ${gDer} <br>
-                     Límite = ${resultado}`;
-                resDiv.classList.add("mostrar");
+                resDiv.innerHTML = `\\[
+                    \\text{Forma 0/0 detectada: } \\\\
+                    f'(x) = ${fDer}, \\\\
+                    g'(x) = ${gDer}, \\\\
+                    \\lim_{x \\to ${x0}} \\frac{f(x)}{g(x)} = ${resultado}
+                \\]`;
             } else {
-                let limite = fVal / gVal;
-                let resDiv = document.getElementById("resultado-lhopital");
-                resDiv.innerHTML = `No es indeterminada. Resultado directo = ${limite}`;
-                resDiv.classList.add("mostrar");
+                resDiv.innerHTML = `\\[
+                    \\text{No es indeterminada. Resultado directo: } ${fVal} / ${gVal} = ${fVal / gVal}
+                \\]`;
             }
+
+            MathJax.typesetPromise([resDiv]);
+            resDiv.classList.add("mostrar");
         } catch (error) {
-            let resDiv = document.getElementById("resultado-lhopital");
-            resDiv.innerHTML = "Error en la expresión. Revisa la sintaxis.";
+            resDiv.innerHTML = "\\[\\text{Error en la expresión. Revisa la sintaxis.}\\]";
+            MathJax.typesetPromise([resDiv]);
             resDiv.classList.add("mostrar");
         }
     }
@@ -93,19 +109,22 @@
     // Derivadas generales
     function calcularDerivada() {
         let f = document.getElementById("f-deriv").value;
+        let resDiv = document.getElementById("resultado-derivada");
 
         try {
             let deriv = math.derivative(f, "x").toString();
-            let resDiv = document.getElementById("resultado-derivada");
-            resDiv.innerHTML = `f'(x) = ${deriv}`;
+            resDiv.innerHTML = `\\[
+                f(x) = ${f}, \\\\
+                f'(x) = ${deriv}
+            \\]`;
+            MathJax.typesetPromise([resDiv]);
             resDiv.classList.add("mostrar");
         } catch (error) {
-            let resDiv = document.getElementById("resultado-derivada");
-            resDiv.innerHTML = "Error en la expresión. Revisa la sintaxis.";
+            resDiv.innerHTML = "\\[\\text{Error en la expresión. Revisa la sintaxis.}\\]";
+            MathJax.typesetPromise([resDiv]);
             resDiv.classList.add("mostrar");
         }
     }
     </script>
 </body>
 </html>
-
