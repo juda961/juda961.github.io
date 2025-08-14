@@ -81,7 +81,7 @@ button:hover {
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     max-height: 200px;
     overflow-y: auto;
-    width: calc(100% - 24px); /* coincide con el input */
+    width: calc(100% - 24px);
     z-index: 1000;
     margin-top: 5px;
     font-size: 16px;
@@ -94,7 +94,7 @@ button:hover {
 }
 
 .autocomplete-list div:hover {
-    background-color: #0078D7; /* color azul al pasar el cursor */
+    background-color: #0078D7;
     color: white;
     border-radius: 6px;
 }
