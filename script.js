@@ -1,6 +1,9 @@
-const funciones = ['sin(', 'cos(', 'tan(', 'log(', 'log10(', 'sqrt(', 'exp(', 'x'];
+// --- Autocompletado dinámico avanzado ---
+const funcionesBase = ['sin(', 'cos(', 'tan(', 'exp(', 'sqrt(', 'x'];
+const logBases = ['log(', 'log2(', 'log10('];
+const potencias = ['^2', '^3', '^1/2', '^x'];
 
-function setupAutocomplete(input, suggestions) {
+function setupAutocomplete(input) {
     let listContainer = document.createElement('div');
     listContainer.classList.add('autocomplete-list');
     input.parentNode.style.position = 'relative';
@@ -8,13 +11,28 @@ function setupAutocomplete(input, suggestions) {
 
     let currentFocus = -1;
 
+    function generarSugerencias(val) {
+        let matches = [];
+
+        // Funciones básicas
+        funcionesBase.forEach(f => { if (f.startsWith(val)) matches.push(f); });
+
+        // Logaritmos dinámicos
+        if (val.startsWith('log')) logBases.forEach(l => { if (l.startsWith(val)) matches.push(l); });
+
+        // Potencias dinámicas si detecta x^
+        if (val.endsWith('^')) potencias.forEach(p => matches.push(val + p));
+
+        return matches;
+    }
+
     input.addEventListener('input', () => {
         let val = input.value;
         listContainer.innerHTML = '';
         currentFocus = -1;
         if (!val) return;
 
-        let matches = suggestions.filter(s => s.startsWith(val));
+        let matches = generarSugerencias(val);
         matches.forEach(match => {
             let item = document.createElement('div');
             item.textContent = match;
@@ -67,7 +85,7 @@ function setupAutocomplete(input, suggestions) {
 }
 
 // Aplicar autocompletado a todos los inputs con clase 'autocomplete'
-document.querySelectorAll('.autocomplete').forEach(input => setupAutocomplete(input, funciones));
+document.querySelectorAll('.autocomplete').forEach(input => setupAutocomplete(input));
 
 
 // --- Límite con L'Hôpital ---
@@ -128,5 +146,3 @@ function calcularDerivada() {
         resDiv.classList.add("mostrar");
     }
 }
-
-
