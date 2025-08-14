@@ -9,6 +9,7 @@ function calcularLHopital() {
         let gVal = math.evaluate(gx, {x: x0});
 
         if (fVal === 0 && gVal === 0) {
+            // Forma indeterminada 0/0 -> aplicar L'Hôpital
             let fDer = math.derivative(fx, "x").toString();
             let gDer = math.derivative(gx, "x").toString();
 
@@ -23,7 +24,15 @@ function calcularLHopital() {
                 g'(x) = ${gDer} <br>
                 Límite según L'Hôpital = ${resultado}
             `;
+        } else if (gVal === 0) {
+            // División entre 0 y numerador != 0 -> infinito
+            let signo = fVal > 0 ? "+" : "-";
+            resultadoDiv.innerHTML = `
+                <b>División entre cero detectada.</b><br>
+                Límite tiende a ${signo}∞
+            `;
         } else {
+            // División normal
             let limite = fVal / gVal;
             resultadoDiv.innerHTML = `No es forma indeterminada. Resultado directo = ${limite}`;
         }
@@ -56,7 +65,7 @@ function calcularDerivada() {
 const funcionesMathJS = ["sin(", "cos(", "tan(", "log(", "log2(", "log10(", "exp(", "sqrt(", "^"];
 
 document.querySelectorAll(".autocomplete").forEach(input => {
-    input.parentNode.style.position = "relative"; // Para que dropdown se posicione correctamente
+    input.parentNode.style.position = "relative";
 
     input.addEventListener("input", function() {
         closeAllLists();
