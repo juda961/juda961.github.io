@@ -1,7 +1,7 @@
-// --- Función L'Hôpital ---
+// --- L'Hôpital ---
 function calcularLHopital() {
-    let fx = document.getElementById("fx").value;
-    let gx = document.getElementById("gx").value;
+    let fx = document.getElementById("fx").value.trim();
+    let gx = document.getElementById("gx").value.trim();
     let x0 = parseFloat(document.getElementById("x0").value);
     const resultadoDiv = document.getElementById("resultado-lhopital");
 
@@ -29,105 +29,35 @@ function calcularLHopital() {
             resultadoDiv.innerHTML = `No es forma indeterminada. Resultado directo = ${limite}`;
         }
 
-        resultadoDiv.classList.add("mostrar");
+        resultadoDiv.style.display = "block";
     } catch (error) {
         resultadoDiv.innerHTML = "Error en la expresión. Revisa la sintaxis.";
-        resultadoDiv.classList.add("mostrar");
+        resultadoDiv.style.display = "block";
     }
 }
 
-// --- Función Derivadas Generales ---
+// --- Derivadas Generales ---
 function calcularDerivada() {
-    let fx = document.getElementById("f-deriv").value;
+    let fx = document.getElementById("f-deriv").value.trim();
     const resultadoDiv = document.getElementById("resultado-derivada");
 
     try {
         let derivada = math.derivative(fx, "x").toString();
         resultadoDiv.innerHTML = `<b>Derivada:</b> ${derivada}`;
-        resultadoDiv.classList.add("mostrar");
+        resultadoDiv.style.display = "block";
     } catch (error) {
         resultadoDiv.innerHTML = "Error en la expresión. Revisa la sintaxis.";
-        resultadoDiv.classList.add("mostrar");
+        resultadoDiv.style.display = "block";
     }
 }
 
-// --- Autocompletado dinámico ---
+// --- Autocompletado básico ---
 const funcionesMathJS = ["sin(", "cos(", "tan(", "log(", "log2(", "log10(", "exp(", "sqrt(", "^"];
 
 document.querySelectorAll(".autocomplete").forEach(input => {
-    input.parentNode.style.position = "relative";
-
     input.addEventListener("input", function() {
-        closeAllLists();
-        if (!this.value) return false;
-
-        let val = this.value.toLowerCase();
-        let list = document.createElement("div");
-        list.setAttribute("class", "autocomplete-list");
-        this.parentNode.appendChild(list);
-
-        funcionesMathJS.forEach(func => {
-            if (func.toLowerCase().startsWith(val)) {
-                let item = document.createElement("div");
-                item.innerHTML = "<strong>" + func.substr(0, val.length) + "</strong>" + func.substr(val.length);
-                item.addEventListener("click", () => {
-                    input.value = func;
-                    closeAllLists();
-                    input.focus();
-                });
-                list.appendChild(item);
-            }
-        });
-    });
-
-    input.addEventListener("keydown", function(e) {
-        let list = this.parentNode.querySelector(".autocomplete-list");
-        if (!list) return;
-
-        let items = list.getElementsByTagName("div");
-        if (!items) return;
-
-        let current = list.querySelector(".autocomplete-active");
-
-        if (e.key === "ArrowDown") {
-            if (current) {
-                current.classList.remove("autocomplete-active");
-                current = current.nextSibling || items[0];
-            } else {
-                current = items[0];
-            }
-            current.classList.add("autocomplete-active");
-            e.preventDefault();
-        } else if (e.key === "ArrowUp") {
-            if (current) {
-                current.classList.remove("autocomplete-active");
-                current = current.previousSibling || items[items.length - 1];
-            } else {
-                current = items[items.length - 1];
-            }
-            current.classList.add("autocomplete-active");
-            e.preventDefault();
-        } else if (e.key === "Enter") {
-            if (current) {
-                e.preventDefault();
-                input.value = current.innerText;
-                closeAllLists();
-            }
-        }
+        // No IDE, solo autocomplete simple
     });
 });
-
-function closeAllLists(elmnt) {
-    document.querySelectorAll(".autocomplete-list").forEach(list => {
-        if (elmnt != list && elmnt != list.previousSibling) {
-            list.parentNode.removeChild(list);
-        }
-    });
-}
-
-document.addEventListener("click", function(e) {
-    closeAllLists(e.target);
-});
-
 
 
