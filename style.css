@@ -1,0 +1,121 @@
+/* --- Estilo general de la página --- */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f6f8;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 700px;
+    margin: 50px auto;
+    background: white;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #0078D7;
+}
+
+p {
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+/* --- Inputs y botones --- */
+input[type="text"], input[type="number"] {
+    width: calc(100% - 24px);
+    padding: 10px 12px;
+    margin: 8px 0 15px 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+button {
+    background-color: #0078D7;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+button:hover {
+    background-color: #005fa3;
+}
+
+/* --- Resultado --- */
+#resultado-lhopital, #resultado-derivada {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #f0f4f8;
+    font-size: 16px;
+    display: none;
+}
+
+#resultado-lhopital.mostrar, #resultado-derivada.mostrar {
+    display: block;
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+/* --- Autocomplete dropdown estilo profesional --- */
+.autocomplete-list {
+    position: absolute;
+    background: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    max-height: 200px;
+    overflow-y: auto;
+    width: calc(100% - 24px); /* coincide con el input */
+    z-index: 1000;
+    margin-top: 5px;
+    font-size: 16px;
+}
+
+.autocomplete-list div {
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.autocomplete-list div:hover {
+    background-color: #0078D7; /* color azul al pasar el cursor */
+    color: white;
+    border-radius: 6px;
+}
+
+/* --- Opción activa para teclado --- */
+.autocomplete-active {
+    background-color: #0078D7;
+    color: white;
+    border-radius: 6px;
+}
+
+/* --- Sección de explicación MathJS --- */
+.explicacion {
+    margin-top: 25px;
+    font-size: 14px;
+    background: #e8f0fe;
+    border-left: 4px solid #0078D7;
+    padding: 10px 15px;
+    border-radius: 6px;
+}
+
+.explicacion b {
+    color: #005fa3;
+}
