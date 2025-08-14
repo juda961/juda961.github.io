@@ -1,3 +1,4 @@
+// --- Función L'Hôpital ---
 function calcularLHopital() {
     let fx = document.getElementById("fx").value;
     let gx = document.getElementById("gx").value;
@@ -27,9 +28,14 @@ function calcularLHopital() {
         } else if (gVal === 0) {
             // División entre 0 y numerador != 0 -> infinito
             let signo = fVal > 0 ? "+" : "-";
+            let explicacion = fVal > 0 ? 
+                "El límite crece sin acotación hacia +∞ cuando x se aproxima a " + x0 :
+                "El límite decrece sin acotación hacia -∞ cuando x se aproxima a " + x0;
+
             resultadoDiv.innerHTML = `
                 <b>División entre cero detectada.</b><br>
-                Límite tiende a ${signo}∞
+                Límite tiende a ${signo}∞<br>
+                <i>${explicacion}</i>
             `;
         } else {
             // División normal
