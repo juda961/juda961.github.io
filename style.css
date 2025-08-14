@@ -1,143 +1,153 @@
-/* --- Estilo general de la página --- */
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f6f8;
-    color: #333;
+/* --- Reset básico --- */
+* {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* --- Contenedor principal --- */
+body {
+    background-color: #f0f4f8;
+    color: #333;
+    line-height: 1.5;
 }
 
 .container {
-    max-width: 700px;
-    margin: 50px auto;
-    background: white;
-    padding: 30px 40px;
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px 30px;
+    background-color: #fff;
     border-radius: 12px;
     box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
 
+/* --- Encabezados --- */
 h1 {
     text-align: center;
-    color: #0078D7;
+    margin-bottom: 30px;
+    color: #1a73e8;
 }
 
 h2 {
-    color: #005fa3;
-    margin-top: 30px;
+    margin-bottom: 15px;
+    color: #1a73e8;
+    border-bottom: 2px solid #1a73e8;
+    padding-bottom: 5px;
 }
 
-p {
-    text-align: center;
-    font-size: 16px;
-    margin-bottom: 20px;
+/* --- Secciones --- */
+.section {
+    margin-bottom: 35px;
 }
 
-/* --- Inputs y botones --- */
-.input-wrapper {
-    position: relative; /* Para que el dropdown se posicione correctamente */
-    margin-bottom: 20px;
+/* --- Labels y párrafos --- */
+label, p, li {
+    display: block;
+    margin-bottom: 5px;
 }
 
+/* --- Inputs --- */
 input[type="text"], input[type="number"] {
     width: 100%;
     padding: 10px 12px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 16px;
-    box-sizing: border-box;
-    outline: none;        /* quitar borde de focus */
-    box-shadow: none;      /* quitar sombra de focus */
-    background-color: #fff; 
+    margin-bottom: 10px;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: 0.2s;
 }
 
-/* Botones */
+input[type="text"]:focus, input[type="number"]:focus {
+    border-color: #1a73e8;
+    outline: none;
+}
+
+/* --- Botones --- */
 button {
-    background-color: #0078D7;
-    color: white;
     padding: 10px 20px;
+    background-color: #1a73e8;
+    color: #fff;
     border: none;
-    border-radius: 8px;
-    font-size: 16px;
+    border-radius: 6px;
     cursor: pointer;
-    transition: background 0.2s;
-    margin-top: 10px;
+    font-size: 1rem;
+    transition: 0.2s;
 }
 
 button:hover {
-    background-color: #005fa3;
+    background-color: #155ab6;
 }
 
 /* --- Resultados --- */
-#resultado-lhopital, #resultado-derivada {
-    margin-top: 20px;
-    padding: 15px;
-    border-radius: 8px;
-    background-color: #f0f4f8;
-    font-size: 16px;
-    display: none;
+.resultado {
+    margin-top: 12px;
+    padding: 12px;
+    background-color: #e8f0fe;
+    border-left: 4px solid #1a73e8;
+    border-radius: 6px;
+    min-height: 30px;
+    transition: 0.2s;
 }
 
-#resultado-lhopital.mostrar, #resultado-derivada.mostrar {
-    display: block;
-    animation: fadeIn 0.4s ease-in-out;
+.resultado i {
+    font-style: italic;
+    color: #555;
 }
 
-@keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity: 1;}
+/* --- Explicaciones --- */
+.section ul {
+    margin-left: 20px;
+    margin-top: 5px;
+    margin-bottom: 10px;
 }
 
-/* --- Autocomplete dropdown estilo profesional --- */
+.section ul li {
+    margin-bottom: 5px;
+}
+
+/* --- Autocompletado --- */
+.autocomplete {
+    position: relative;
+}
+
 .autocomplete-list {
-    position: absolute;  
-    top: 100%;        /* pegado al borde inferior del input */
+    position: absolute;
+    top: 100%;
     left: 0;
-    background: #ffffff;
+    right: 0;
+    z-index: 99;
+    background-color: #fff;
     border: 1px solid #ccc;
-    border-top: none;           /* elimina borde superior */
-    border-radius: 0 0 8px 8px; /* solo esquinas inferiores redondeadas */
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    max-height: 200px;
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    max-height: 180px;
     overflow-y: auto;
-    width: 100%;                 
-    z-index: 1000;
-    font-size: 16px;
-    margin-top: 0; /* elimina separación extra */
 }
 
 .autocomplete-list div {
-    padding: 10px 15px;
+    padding: 8px 12px;
     cursor: pointer;
-    transition: background 0.2s, color 0.2s;
 }
 
 .autocomplete-list div:hover,
 .autocomplete-active {
-    background-color: #0078D7;
-    color: white;
+    background-color: #1a73e8;
+    color: #fff;
 }
 
-/* --- Ajuste de bordes input para dropdown pegado --- */
-.input-wrapper input {
-    border-radius: 8px 8px 0 0; /* solo esquinas superiores redondeadas */
+/* --- Scrollbar personalizado (opcional) --- */
+.autocomplete-list::-webkit-scrollbar {
+    width: 6px;
 }
 
-/* --- Sección de explicación MathJS --- */
-.explicacion {
-    margin-top: 25px;
-    font-size: 14px;
-    background: #e8f0fe;
-    border-left: 4px solid #0078D7;
-    padding: 10px 15px;
-    border-radius: 6px;
+.autocomplete-list::-webkit-scrollbar-thumb {
+    background-color: #1a73e8;
+    border-radius: 3px;
 }
 
-/* --- Línea separadora elegante --- */
-hr {
-    border: none;               
-    height: 2px;                
-    background-color: #0078D7;  
-    width: 80%;                 
-    margin: 30px auto;          
-    border-radius: 1px;         
+.autocomplete-list::-webkit-scrollbar-track {
+    background: #f0f4f8;
 }
+
+
