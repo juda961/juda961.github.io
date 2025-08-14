@@ -61,8 +61,23 @@ function calcularDerivada() {
     }
 }
 
-// --- Autocompletado dinámico ---
-const funcionesMathJS = ["sin(", "cos(", "tan(", "log(", "log2(", "log10(", "exp(", "sqrt(", "^"];
+// --- Previsualización de fórmulas en tiempo real ---
+document.querySelectorAll(".autocomplete").forEach(input => {
+    const previewDiv = input.parentNode.querySelector(".preview");
+    input.addEventListener("input", () => {
+        try {
+            previewDiv.innerHTML = `$$${input.value}$$`;
+            MathJax.typesetPromise();
+        } catch {
+            previewDiv.innerHTML = "";
+        }
+    });
+});
+
+// --- Autocompletado dinámico avanzado ---
+const funcionesMathJS = [
+    "sin(", "cos(", "tan(", "log(", "log2(", "log10(", "exp(", "sqrt(", "^", "d/dx("
+];
 
 document.querySelectorAll(".autocomplete").forEach(input => {
     input.parentNode.style.position = "relative"; // Para posicionar dropdown
@@ -81,9 +96,13 @@ document.querySelectorAll(".autocomplete").forEach(input => {
                 const item = document.createElement("div");
                 item.innerHTML = "<strong>" + func.substr(0, val.length) + "</strong>" + func.substr(val.length);
                 item.addEventListener("click", () => {
-                    input.value = func;
-                    closeAllLists();
+                    // Insertar función en la posición actual del cursor
+                    const start = input.selectionStart;
+                    const end = input.selectionEnd;
+                    input.value = input.value.slice(0, start) + func + input.value.slice(end);
                     input.focus();
+                    input.selectionStart = input.selectionEnd = start + func.length;
+                    closeAllLists();
                 });
                 list.appendChild(item);
             }
@@ -120,7 +139,11 @@ document.querySelectorAll(".autocomplete").forEach(input => {
         } else if (e.key === "Enter") {
             if (current) {
                 e.preventDefault();
-                input.value = current.innerText;
+                const start = input.selectionStart;
+                const end = input.selectionEnd;
+                input.value = input.value.slice(0, start) + current.innerText + input.value.slice(end);
+                input.focus();
+                input.selectionStart = input.selectionEnd = start + current.innerText.length;
                 closeAllLists();
             }
         }
@@ -139,4 +162,5 @@ function closeAllLists(elmnt) {
 document.addEventListener("click", function(e) {
     closeAllLists(e.target);
 });
+
 
