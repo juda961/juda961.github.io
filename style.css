@@ -34,12 +34,21 @@ h2 {
     margin-bottom: 30px;
 }
 
-/* --- Listas de notas --- */
-.section ul {
+/* --- Notas resaltadas --- */
+.notas {
+    background-color: #fff3cd; /* amarillo suave */
+    border-left: 5px solid #ffc107; /* borde amarillo más fuerte */
+    padding: 10px 15px;
     margin-bottom: 15px;
-    padding-left: 20px;
-    color: #555;
+    border-radius: 6px;
     font-size: 0.95rem;
+    color: #856404;
+}
+
+/* --- Listas de notas --- */
+.notas ul {
+    margin-top: 5px;
+    padding-left: 20px;
 }
 
 /* --- Inputs y labels --- */
@@ -80,6 +89,7 @@ button:hover {
 
 /* --- Resultados --- */
 .resultado {
+    display: none; /* oculto por defecto */
     margin-top: 15px;
     padding: 10px 15px;
     border-left: 4px solid #007bff;
@@ -89,6 +99,11 @@ button:hover {
     line-height: 1.5;
     font-size: 1rem;
     white-space: pre-wrap;
+}
+
+/* Mostrar cuando se calcule */
+.resultado.mostrar {
+    display: block;
 }
 
 /* --- Clase para infinito --- */
@@ -131,4 +146,5 @@ button:hover {
 input.autocomplete {
     margin-bottom: 0px;
 }
+
 
