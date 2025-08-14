@@ -1,17 +1,19 @@
-// --- Sugerencias para autocompletado ---
 const funciones = ['sin(', 'cos(', 'tan(', 'log(', 'log10(', 'sqrt(', 'exp(', 'x'];
 
 function setupAutocomplete(input, suggestions) {
     let listContainer = document.createElement('div');
     listContainer.classList.add('autocomplete-list');
+    input.parentNode.style.position = 'relative';
     input.parentNode.appendChild(listContainer);
+
+    let currentFocus = -1;
 
     input.addEventListener('input', () => {
         let val = input.value;
         listContainer.innerHTML = '';
+        currentFocus = -1;
         if (!val) return;
 
-        // Filtrar sugerencias que comiencen con lo que escribes
         let matches = suggestions.filter(s => s.startsWith(val));
         matches.forEach(match => {
             let item = document.createElement('div');
@@ -24,7 +26,41 @@ function setupAutocomplete(input, suggestions) {
         });
     });
 
-    // Cerrar lista al perder foco
+    input.addEventListener('keydown', e => {
+        let items = listContainer.querySelectorAll('div');
+        if (!items) return;
+
+        if (e.key === 'ArrowDown') {
+            currentFocus++;
+            addActive(items);
+            e.preventDefault();
+        } else if (e.key === 'ArrowUp') {
+            currentFocus--;
+            addActive(items);
+            e.preventDefault();
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (currentFocus > -1) {
+                if (items[currentFocus]) {
+                    input.value = items[currentFocus].textContent;
+                    listContainer.innerHTML = '';
+                }
+            }
+        }
+    });
+
+    function addActive(items) {
+        if (!items) return;
+        removeActive(items);
+        if (currentFocus >= items.length) currentFocus = 0;
+        if (currentFocus < 0) currentFocus = items.length - 1;
+        items[currentFocus].classList.add('autocomplete-active');
+    }
+
+    function removeActive(items) {
+        items.forEach(item => item.classList.remove('autocomplete-active'));
+    }
+
     input.addEventListener('blur', () => {
         setTimeout(() => listContainer.innerHTML = '', 100);
     });
@@ -72,7 +108,6 @@ function calcularLHopital() {
         resDiv.classList.add("mostrar");
     }
 }
-
 
 // --- Derivadas generales ---
 function calcularDerivada() {
