@@ -27,16 +27,17 @@
                 <ul>
                     <li>Usa funciones de MathJS: sin(), cos(), tan(), log(), log2(), log10(), exp(), sqrt(), ^</li>
                     <li>Ejemplo de límite: f(x) = sin(x), g(x) = x, x → 0</li>
+                    <li>El autocompletado te sugerirá funciones mientras escribes</li>
                 </ul>
             </div>
 
-            <p>Introduce las funciones f(x) y g(x) y el valor al que x tiende.</p>
-
             <label>f(x):</label>
             <input type="text" id="fx" class="autocomplete" placeholder="Ej: sin(x)">
+            <div class="preview" id="preview-fx"></div>
 
             <label>g(x):</label>
             <input type="text" id="gx" class="autocomplete" placeholder="Ej: x">
+            <div class="preview" id="preview-gx"></div>
 
             <label>Valor de x →</label>
             <input type="number" id="x0" placeholder="Ej: 0">
@@ -55,13 +56,13 @@
                 <ul>
                     <li>Ejemplo: f(x) = x^3 → derivada = 3*x^2</li>
                     <li>También puedes usar funciones de MathJS como log(), sin(), cos(), etc.</li>
+                    <li>Se mostrará una previsualización en tiempo real de tu fórmula</li>
                 </ul>
             </div>
 
-            <p>Introduce una función f(x) para calcular su derivada.</p>
-
             <label>f(x):</label>
             <input type="text" id="f-deriv" class="autocomplete" placeholder="Ej: x^2 + 3*x">
+            <div class="preview" id="preview-deriv"></div>
 
             <button onclick="calcularDerivada()">Calcular Derivada</button>
             <div id="resultado-derivada" class="resultado"></div>
