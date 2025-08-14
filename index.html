@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Regla de L'Hôpital</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Librería para derivadas y evaluación -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Calculadora Regla de L'Hôpital</h1>
+        <p>Introduce las funciones f(x) y g(x) y el valor al que x tiende.</p>
+        
+        <label>f(x):</label>
+        <input type="text" id="fx" placeholder="Ejemplo: sin(x)">
+        
+        <label>g(x):</label>
+        <input type="text" id="gx" placeholder="Ejemplo: x">
+        
+        <label>Valor de x →</label>
+        <input type="number" id="x0" placeholder="Ejemplo: 0">
+        
+        <button onclick="calcular()">Calcular</button>
+        
+        <div id="resultado"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
