@@ -95,6 +95,12 @@ button:hover {
     color: #555;
 }
 
+/* --- Estilo especial para infinito --- */
+.infinito {
+    color: #d93025; /* rojo llamativo */
+    font-weight: bold;
+}
+
 /* --- Explicaciones --- */
 .section ul {
     margin-left: 20px;
@@ -136,7 +142,7 @@ button:hover {
     color: #fff;
 }
 
-/* --- Scrollbar personalizado (opcional) --- */
+/* --- Scrollbar personalizado --- */
 .autocomplete-list::-webkit-scrollbar {
     width: 6px;
 }
@@ -149,5 +155,4 @@ button:hover {
 .autocomplete-list::-webkit-scrollbar-track {
     background: #f0f4f8;
 }
-
 
