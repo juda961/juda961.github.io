@@ -1,26 +1,22 @@
 // --- Función L'Hôpital ---
 function calcularLHopital() {
-    const fx = document.getElementById("fx").value;
-    const gx = document.getElementById("gx").value;
-    const x0 = parseFloat(document.getElementById("x0").value);
+    let fx = document.getElementById("fx").value;
+    let gx = document.getElementById("gx").value;
+    let x0 = parseFloat(document.getElementById("x0").value);
     const resultadoDiv = document.getElementById("resultado-lhopital");
 
-    // Limpiar contenido previo
-    resultadoDiv.innerHTML = "";
-    resultadoDiv.classList.remove("mostrar");
-
     try {
-        const fVal = math.evaluate(fx, {x: x0});
-        const gVal = math.evaluate(gx, {x: x0});
+        let fVal = math.evaluate(fx, {x: x0});
+        let gVal = math.evaluate(gx, {x: x0});
 
         if (fVal === 0 && gVal === 0) {
-            const fDer = math.derivative(fx, "x").toString();
-            const gDer = math.derivative(gx, "x").toString();
+            let fDer = math.derivative(fx, "x").toString();
+            let gDer = math.derivative(gx, "x").toString();
 
-            const fDerVal = math.evaluate(fDer, {x: x0});
-            const gDerVal = math.evaluate(gDer, {x: x0});
+            let fDerVal = math.evaluate(fDer, {x: x0});
+            let gDerVal = math.evaluate(gDer, {x: x0});
 
-            const resultado = fDerVal / gDerVal;
+            let resultado = fDerVal / gDerVal;
 
             resultadoDiv.innerHTML = `
                 <b>Forma indeterminada 0/0 detectada.</b><br>
@@ -29,12 +25,11 @@ function calcularLHopital() {
                 Límite según L'Hôpital = ${resultado}
             `;
         } else {
-            const limite = fVal / gVal;
+            let limite = fVal / gVal;
             resultadoDiv.innerHTML = `No es forma indeterminada. Resultado directo = ${limite}`;
         }
 
         resultadoDiv.classList.add("mostrar");
-        MathJax.typesetPromise();
     } catch (error) {
         resultadoDiv.innerHTML = "Error en la expresión. Revisa la sintaxis.";
         resultadoDiv.classList.add("mostrar");
@@ -43,66 +38,42 @@ function calcularLHopital() {
 
 // --- Función Derivadas Generales ---
 function calcularDerivada() {
-    const fx = document.getElementById("f-deriv").value;
+    let fx = document.getElementById("f-deriv").value;
     const resultadoDiv = document.getElementById("resultado-derivada");
 
-    // Limpiar contenido previo
-    resultadoDiv.innerHTML = "";
-    resultadoDiv.classList.remove("mostrar");
-
     try {
-        const derivada = math.derivative(fx, "x").toString();
+        let derivada = math.derivative(fx, "x").toString();
         resultadoDiv.innerHTML = `<b>Derivada:</b> ${derivada}`;
         resultadoDiv.classList.add("mostrar");
-        MathJax.typesetPromise();
     } catch (error) {
         resultadoDiv.innerHTML = "Error en la expresión. Revisa la sintaxis.";
         resultadoDiv.classList.add("mostrar");
     }
 }
 
-// --- Previsualización de fórmulas en tiempo real ---
-document.querySelectorAll(".autocomplete").forEach(input => {
-    const previewDiv = input.parentNode.querySelector(".preview");
-    input.addEventListener("input", () => {
-        try {
-            previewDiv.innerHTML = `$$${input.value}$$`;
-            MathJax.typesetPromise();
-        } catch {
-            previewDiv.innerHTML = "";
-        }
-    });
-});
-
-// --- Autocompletado dinámico avanzado ---
-const funcionesMathJS = [
-    "sin(", "cos(", "tan(", "log(", "log2(", "log10(", "exp(", "sqrt(", "^", "d/dx("
-];
+// --- Autocompletado dinámico ---
+const funcionesMathJS = ["sin(", "cos(", "tan(", "log(", "log2(", "log10(", "exp(", "sqrt(", "^"];
 
 document.querySelectorAll(".autocomplete").forEach(input => {
-    input.parentNode.style.position = "relative"; // Para posicionar dropdown
+    input.parentNode.style.position = "relative";
 
     input.addEventListener("input", function() {
         closeAllLists();
         if (!this.value) return false;
 
-        const val = this.value.toLowerCase();
-        const list = document.createElement("div");
+        let val = this.value.toLowerCase();
+        let list = document.createElement("div");
         list.setAttribute("class", "autocomplete-list");
         this.parentNode.appendChild(list);
 
         funcionesMathJS.forEach(func => {
             if (func.toLowerCase().startsWith(val)) {
-                const item = document.createElement("div");
+                let item = document.createElement("div");
                 item.innerHTML = "<strong>" + func.substr(0, val.length) + "</strong>" + func.substr(val.length);
                 item.addEventListener("click", () => {
-                    // Insertar función en la posición actual del cursor
-                    const start = input.selectionStart;
-                    const end = input.selectionEnd;
-                    input.value = input.value.slice(0, start) + func + input.value.slice(end);
-                    input.focus();
-                    input.selectionStart = input.selectionEnd = start + func.length;
+                    input.value = func;
                     closeAllLists();
+                    input.focus();
                 });
                 list.appendChild(item);
             }
@@ -110,10 +81,10 @@ document.querySelectorAll(".autocomplete").forEach(input => {
     });
 
     input.addEventListener("keydown", function(e) {
-        const list = this.parentNode.querySelector(".autocomplete-list");
+        let list = this.parentNode.querySelector(".autocomplete-list");
         if (!list) return;
 
-        const items = list.getElementsByTagName("div");
+        let items = list.getElementsByTagName("div");
         if (!items) return;
 
         let current = list.querySelector(".autocomplete-active");
@@ -139,18 +110,13 @@ document.querySelectorAll(".autocomplete").forEach(input => {
         } else if (e.key === "Enter") {
             if (current) {
                 e.preventDefault();
-                const start = input.selectionStart;
-                const end = input.selectionEnd;
-                input.value = input.value.slice(0, start) + current.innerText + input.value.slice(end);
-                input.focus();
-                input.selectionStart = input.selectionEnd = start + current.innerText.length;
+                input.value = current.innerText;
                 closeAllLists();
             }
         }
     });
 });
 
-// --- Función para cerrar listas de autocompletado ---
 function closeAllLists(elmnt) {
     document.querySelectorAll(".autocomplete-list").forEach(list => {
         if (elmnt != list && elmnt != list.previousSibling) {
@@ -162,5 +128,6 @@ function closeAllLists(elmnt) {
 document.addEventListener("click", function(e) {
     closeAllLists(e.target);
 });
+
 
 
