@@ -5,142 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora Matemática PRO</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Librería para derivadas y evaluación -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- MathJax para mostrar fórmulas bonitas -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
 </head>
 <body>
     <div class="container">
         <h1>Calculadora Matemática PRO</h1>
+        <p>Introduce tus funciones y selecciona el cálculo que quieras hacer.</p>
 
-        <!-- Límite con L'Hôpital -->
-        <div class="card">
-            <h2>Límites con L'Hôpital</h2>
-            <p>Introduce f(x), g(x) y el valor al que x tiende:</p>
-            <label>f(x):</label>
-            <input type="text" id="fx" placeholder="Ej: sin(x)" class="autocomplete">
-            <label>g(x):</label>
-            <input type="text" id="gx" placeholder="Ej: x" class="autocomplete">
-            <label>Valor de x →</label>
-            <input type="number" id="x0" placeholder="Ej: 0">
-            <button onclick="calcularLHopital()">Calcular límite</button>
-            <div id="resultado-lhopital" class="resultado"></div>
+        <!-- Sección L'Hôpital -->
+        <h2>Calculadora L'Hôpital</h2>
+        <label>f(x):</label>
+        <input type="text" id="fx" class="autocomplete" placeholder="Ejemplo: sin(x)">
+
+        <label>g(x):</label>
+        <input type="text" id="gx" class="autocomplete" placeholder="Ejemplo: x">
+
+        <label>Valor de x →</label>
+        <input type="number" id="x0" placeholder="Ejemplo: 0">
+
+        <button onclick="calcularLHopital()">Calcular L'Hôpital</button>
+        <div id="resultado-lhopital"></div>
+
+        <div class="explicacion">
+            <b>Nota:</b> Usa funciones según MathJS. Ejemplos:<br>
+            - Seno: sin(x), Coseno: cos(x), Tangente: tan(x)<br>
+            - Logaritmos: log(x), log2(x), log10(x)<br>
+            - Potencias: x^2, x^3, sqrt(x)<br>
+            - Exponencial: exp(x)
         </div>
 
-        <!-- Derivadas generales -->
-        <div class="card">
-            <h2>Derivadas generales</h2>
-            <p>Introduce f(x) que deseas derivar:</p>
-            <label>f(x):</label>
-            <input type="text" id="f-deriv" placeholder="Ej: x^3 + sin(x)" class="autocomplete">
-            <button onclick="calcularDerivada()">Calcular derivada</button>
-            <div id="resultado-derivada" class="resultado"></div>
-        </div>
+        <hr style="margin: 30px 0;">
 
-        <!-- Instrucciones -->
-        <div class="card instructions">
-            <h2>Cómo escribir las funciones</h2>
-            <ul>
-                <li><b>Potencias:</b> x^2, x^n</li>
-                <li><b>Raíz cuadrada:</b> sqrt(x)</li>
-                <li><b>Fracciones:</b> (x^2-1)/(x-1)</li>
-                <li><b>Trigonometría:</b> sin(x), cos(x), tan(x)</li>
-                <li><b>Logaritmos:</b> log(x) → natural, log10(x) → base 10, log(x, n) → base n</li>
-                <li><b>Exponenciales:</b> exp(x) → e^x</li>
-            </ul>
+        <!-- Sección Derivadas -->
+        <h2>Derivadas Generales</h2>
+        <label>f(x):</label>
+        <input type="text" id="f-deriv" class="autocomplete" placeholder="Ejemplo: x^3 + sin(x)">
+
+        <button onclick="calcularDerivada()">Calcular Derivada</button>
+        <div id="resultado-derivada"></div>
+
+        <div class="explicacion">
+            <b>Nota:</b> Introduce cualquier función de x para obtener su derivada.<br>
+            Puedes usar las mismas funciones de MathJS que en L'Hôpital.
         </div>
     </div>
 
-    <script>
-    // --- Sugerencias para autocompletado ---
-    const funciones = ['sin(', 'cos(', 'tan(', 'log(', 'log10(', 'sqrt(', 'exp(', 'x'];
-
-    function setupAutocomplete(input, suggestions) {
-        let listContainer = document.createElement('div');
-        listContainer.classList.add('autocomplete-list');
-        input.parentNode.appendChild(listContainer);
-
-        input.addEventListener('input', () => {
-            let val = input.value;
-            listContainer.innerHTML = '';
-            if (!val) return;
-
-            let matches = suggestions.filter(s => s.startsWith(val));
-            matches.forEach(match => {
-                let item = document.createElement('div');
-                item.textContent = match;
-                item.addEventListener('click', () => {
-                    input.value = match;
-                    listContainer.innerHTML = '';
-                });
-                listContainer.appendChild(item);
-            });
-        });
-
-        input.addEventListener('blur', () => {
-            setTimeout(() => listContainer.innerHTML = '', 100);
-        });
-    }
-
-    document.querySelectorAll('.autocomplete').forEach(input => setupAutocomplete(input, funciones));
-
-    // --- Límite con L'Hôpital ---
-    function calcularLHopital() {
-        let fx = document.getElementById("fx").value;
-        let gx = document.getElementById("gx").value;
-        let x0 = parseFloat(document.getElementById("x0").value);
-        let resDiv = document.getElementById("resultado-lhopital");
-
-        try {
-            let fVal = math.evaluate(fx, {x: x0});
-            let gVal = math.evaluate(gx, {x: x0});
-
-            if (fVal === 0 && gVal === 0) {
-                let fDer = math.derivative(fx, "x").toString();
-                let gDer = math.derivative(gx, "x").toString();
-                let fDerVal = math.evaluate(fDer, {x: x0});
-                let gDerVal = math.evaluate(gDer, {x: x0});
-                let resultado = fDerVal / gDerVal;
-
-                resDiv.innerHTML = `\\[
-                    \\text{Forma 0/0 detectada: } \\\\
-                    f'(x) = ${fDer}, \\\\
-                    g'(x) = ${gDer}, \\\\
-                    \\lim_{x \\to ${x0}} \\frac{f(x)}{g(x)} = ${resultado}
-                \\]`;
-            } else {
-                resDiv.innerHTML = `\\[
-                    \\text{No es indeterminada. Resultado directo: } ${fVal} / ${gVal} = ${fVal / gVal}
-                \\]`;
-            }
-
-            MathJax.typesetPromise([resDiv]);
-            resDiv.classList.add("mostrar");
-        } catch (error) {
-            resDiv.innerHTML = "\\[\\text{Error en la expresión. Revisa la sintaxis.}\\]";
-            MathJax.typesetPromise([resDiv]);
-            resDiv.classList.add("mostrar");
-        }
-    }
-
-    // --- Derivadas generales ---
-    function calcularDerivada() {
-        let f = document.getElementById("f-deriv").value;
-        let resDiv = document.getElementById("resultado-derivada");
-
-        try {
-            let deriv = math.derivative(f, "x").toString();
-            resDiv.innerHTML = `\\[
-                f(x) = ${f}, \\\\
-                f'(x) = ${deriv}
-            \\]`;
-            MathJax.typesetPromise([resDiv]);
-            resDiv.classList.add("mostrar");
-        } catch (error) {
-            resDiv.innerHTML = "\\[\\text{Error en la expresión. Revisa la sintaxis.}\\]";
-            MathJax.typesetPromise([resDiv]);
-            resDiv.classList.add("mostrar");
-        }
-    }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
+
