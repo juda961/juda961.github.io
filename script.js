@@ -26,7 +26,11 @@ function calcularLHopital() {
             `;
         } else {
             let limite = fVal / gVal;
-            resultadoDiv.innerHTML = `No es forma indeterminada. Resultado directo = ${limite}`;
+            if (!isFinite(limite)) {
+                resultadoDiv.innerHTML = `No es forma indeterminada. Resultado = ∞`;
+            } else {
+                resultadoDiv.innerHTML = `No es forma indeterminada. Resultado = ${limite}`;
+            }
         }
 
         resultadoDiv.style.display = "block";
@@ -51,12 +55,12 @@ function calcularDerivada() {
     }
 }
 
-// --- Autocompletado básico ---
+// --- Autocompletado simple ---
 const funcionesMathJS = ["sin(", "cos(", "tan(", "log(", "log2(", "log10(", "exp(", "sqrt(", "^"];
 
 document.querySelectorAll(".autocomplete").forEach(input => {
     input.addEventListener("input", function() {
-        // No IDE, solo autocomplete simple
+        // No mini IDE invasivo, solo autocomplete básico
     });
 });
 
