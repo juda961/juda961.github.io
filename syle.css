@@ -6,7 +6,7 @@ body {
 }
 
 .container {
-    max-width: 500px;
+    max-width: 600px;
     background: white;
     padding: 30px 20px;
     margin: 50px auto;
@@ -15,9 +15,16 @@ body {
     text-align: center;
 }
 
-h1 {
+h1, h2 {
     color: #333;
+}
+
+h1 {
     margin-bottom: 20px;
+}
+
+h2 {
+    margin-top: 30px;
 }
 
 label {
@@ -53,7 +60,7 @@ button:hover {
     background: #005a9e;
 }
 
-#resultado {
+#resultado-lhopital, #resultado-derivada {
     margin-top: 25px;
     padding: 15px;
     background: #f0f0f0;
@@ -63,3 +70,17 @@ button:hover {
     color: #333;
 }
 
+/* Sección de instrucciones */
+.instructions {
+    background: #e0f7fa;
+    padding: 15px;
+    margin-top: 30px;
+    border-radius: 8px;
+    text-align: left;
+    font-size: 14px;
+    color: #006064;
+}
+
+.instructions b {
+    color: #004d4d;
+}
