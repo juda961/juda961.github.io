@@ -3,116 +3,101 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Arial', sans-serif;
 }
 
 /* --- Contenedor principal --- */
-body {
-    background-color: #f0f4f8;
-    color: #333;
-    line-height: 1.5;
-}
-
 .container {
     max-width: 800px;
     margin: 40px auto;
-    padding: 20px 30px;
-    background-color: #fff;
+    padding: 20px;
+    background-color: #f8f9fa;
     border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-/* --- Encabezados --- */
+/* --- Títulos --- */
 h1 {
     text-align: center;
     margin-bottom: 30px;
-    color: #1a73e8;
+    color: #333;
 }
 
 h2 {
-    margin-bottom: 15px;
-    color: #1a73e8;
-    border-bottom: 2px solid #1a73e8;
-    padding-bottom: 5px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #444;
 }
 
 /* --- Secciones --- */
 .section {
-    margin-bottom: 35px;
+    margin-bottom: 30px;
 }
 
-/* --- Labels y párrafos --- */
-label, p, li {
+/* --- Listas de notas --- */
+.section ul {
+    margin-bottom: 15px;
+    padding-left: 20px;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+/* --- Inputs y labels --- */
+label {
     display: block;
+    margin-top: 10px;
     margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
 }
 
-/* --- Inputs --- */
-input[type="text"], input[type="number"] {
+input[type="text"],
+input[type="number"] {
     width: 100%;
-    padding: 10px 12px;
-    margin-bottom: 10px;
-    border: 2px solid #ccc;
+    padding: 10px;
+    margin-bottom: 5px;
+    border: 1px solid #ccc;
     border-radius: 6px;
     font-size: 1rem;
-    transition: 0.2s;
-}
-
-input[type="text"]:focus, input[type="number"]:focus {
-    border-color: #1a73e8;
-    outline: none;
 }
 
 /* --- Botones --- */
 button {
+    margin-top: 10px;
     padding: 10px 20px;
-    background-color: #1a73e8;
-    color: #fff;
     border: none;
     border-radius: 6px;
-    cursor: pointer;
+    background-color: #007bff;
+    color: white;
     font-size: 1rem;
-    transition: 0.2s;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 button:hover {
-    background-color: #155ab6;
+    background-color: #0056b3;
 }
 
 /* --- Resultados --- */
 .resultado {
-    margin-top: 12px;
-    padding: 12px;
-    background-color: #e8f0fe;
-    border-left: 4px solid #1a73e8;
+    margin-top: 15px;
+    padding: 10px 15px;
+    border-left: 4px solid #007bff;
+    background-color: #e9ecef;
     border-radius: 6px;
-    min-height: 30px;
-    transition: 0.2s;
+    min-height: 40px;
+    line-height: 1.5;
+    font-size: 1rem;
+    white-space: pre-wrap;
 }
 
-.resultado i {
-    font-style: italic;
-    color: #555;
-}
-
-/* --- Estilo especial para infinito --- */
+/* --- Clase para infinito --- */
 .infinito {
-    color: #d93025; /* rojo llamativo */
+    color: #d9534f;
     font-weight: bold;
 }
 
-/* --- Explicaciones --- */
-.section ul {
-    margin-left: 20px;
-    margin-top: 5px;
-    margin-bottom: 10px;
-}
-
-.section ul li {
-    margin-bottom: 5px;
-}
-
-/* --- Autocompletado --- */
+/* --- Autocomplete --- */
 .autocomplete {
     position: relative;
 }
@@ -122,13 +107,13 @@ button:hover {
     top: 100%;
     left: 0;
     right: 0;
-    z-index: 99;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-top: none;
-    border-radius: 0 0 6px 6px;
     max-height: 180px;
     overflow-y: auto;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-top: none;
+    z-index: 99;
+    border-radius: 0 0 6px 6px;
 }
 
 .autocomplete-list div {
@@ -137,22 +122,13 @@ button:hover {
 }
 
 .autocomplete-list div:hover,
-.autocomplete-active {
-    background-color: #1a73e8;
-    color: #fff;
+.autocomplete-list .autocomplete-active {
+    background-color: #007bff;
+    color: white;
 }
 
-/* --- Scrollbar personalizado --- */
-.autocomplete-list::-webkit-scrollbar {
-    width: 6px;
-}
-
-.autocomplete-list::-webkit-scrollbar-thumb {
-    background-color: #1a73e8;
-    border-radius: 3px;
-}
-
-.autocomplete-list::-webkit-scrollbar-track {
-    background: #f0f4f8;
+/* --- Separación mínima entre inputs y autocompletado --- */
+input.autocomplete {
+    margin-bottom: 0px;
 }
 
