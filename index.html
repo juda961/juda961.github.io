@@ -15,19 +15,23 @@
 </head>
 <body>
     <div class="container">
-        <h1>Calculadora Matemática PRO</h1>
+        <h1>Calculadora Matemática</h1>
         <p>Introduce tus funciones y selecciona el cálculo que quieras hacer.</p>
 
         <!-- Sección L'Hôpital -->
         <h2>Calculadora L'Hôpital</h2>
-        <label>f(x):</label>
-        <input type="text" id="fx" class="autocomplete" placeholder="Ejemplo: sin(x)">
-
-        <label>g(x):</label>
-        <input type="text" id="gx" class="autocomplete" placeholder="Ejemplo: x">
-
-        <label>Valor de x →</label>
-        <input type="number" id="x0" placeholder="Ejemplo: 0">
+        <div class="input-wrapper">
+            <label>f(x):</label>
+            <input type="text" id="fx" class="autocomplete" placeholder="Ejemplo: sin(x)">
+        </div>
+        <div class="input-wrapper">
+            <label>g(x):</label>
+            <input type="text" id="gx" class="autocomplete" placeholder="Ejemplo: x">
+        </div>
+        <div class="input-wrapper">
+            <label>Valor de x →</label>
+            <input type="number" id="x0" placeholder="Ejemplo: 0">
+        </div>
 
         <button onclick="calcularLHopital()">Calcular L'Hôpital</button>
         <div id="resultado-lhopital"></div>
@@ -40,12 +44,14 @@
             - Exponencial: exp(x)
         </div>
 
-        <hr style="margin: 30px 0;">
+        <hr>
 
         <!-- Sección Derivadas -->
         <h2>Derivadas Generales</h2>
-        <label>f(x):</label>
-        <input type="text" id="f-deriv" class="autocomplete" placeholder="Ejemplo: x^3 + sin(x)">
+        <div class="input-wrapper">
+            <label>f(x):</label>
+            <input type="text" id="f-deriv" class="autocomplete" placeholder="Ejemplo: x^3 + sin(x)">
+        </div>
 
         <button onclick="calcularDerivada()">Calcular Derivada</button>
         <div id="resultado-derivada"></div>
@@ -59,5 +65,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
-
