@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora Matemática</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Librería para derivadas y evaluación -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
-    <!-- MathJax para mostrar fórmulas bonitas -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async
         src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
@@ -16,49 +14,50 @@
 <body>
     <div class="container">
         <h1>Calculadora Matemática</h1>
-        <p>Introduce tus funciones y selecciona el cálculo que quieras hacer.</p>
 
         <!-- Sección L'Hôpital -->
-        <h2>Calculadora L'Hôpital</h2>
-        <div class="input-wrapper">
+        <div class="section">
+            <h2>Regla de L'Hôpital</h2>
+            <p>Introduce las funciones f(x) y g(x) y el valor al que x tiende.</p>
+            
             <label>f(x):</label>
             <input type="text" id="fx" class="autocomplete" placeholder="Ejemplo: sin(x)">
-        </div>
-        <div class="input-wrapper">
+            
             <label>g(x):</label>
             <input type="text" id="gx" class="autocomplete" placeholder="Ejemplo: x">
-        </div>
-        <div class="input-wrapper">
+            
             <label>Valor de x →</label>
             <input type="number" id="x0" placeholder="Ejemplo: 0">
+            
+            <button onclick="calcularLHopital()">Calcular L'Hôpital</button>
+            
+            <div id="resultado-lhopital" class="resultado"></div>
         </div>
 
-        <button onclick="calcularLHopital()">Calcular L'Hôpital</button>
-        <div id="resultado-lhopital"></div>
+        <!-- Sección Derivadas Generales -->
+        <div class="section">
+            <h2>Derivadas Generales</h2>
+            <p>Introduce una función y calcula su derivada respecto a x.</p>
 
-        <div class="explicacion">
-            <b>Nota:</b> Usa funciones según MathJS. Ejemplos:<br>
-            - Seno: sin(x), Coseno: cos(x), Tangente: tan(x)<br>
-            - Logaritmos: log(x), log2(x), log10(x)<br>
-            - Potencias: x^2, x^3, sqrt(x)<br>
-            - Exponencial: exp(x)
-        </div>
-
-        <hr>
-
-        <!-- Sección Derivadas -->
-        <h2>Derivadas Generales</h2>
-        <div class="input-wrapper">
             <label>f(x):</label>
-            <input type="text" id="f-deriv" class="autocomplete" placeholder="Ejemplo: x^3 + sin(x)">
+            <input type="text" id="f-deriv" class="autocomplete" placeholder="Ejemplo: x^2 + 3*x">
+            
+            <button onclick="calcularDerivada()">Calcular Derivada</button>
+            
+            <div id="resultado-derivada" class="resultado"></div>
         </div>
 
-        <button onclick="calcularDerivada()">Calcular Derivada</button>
-        <div id="resultado-derivada"></div>
-
-        <div class="explicacion">
-            <b>Nota:</b> Introduce cualquier función de x para obtener su derivada.<br>
-            Puedes usar las mismas funciones de MathJS que en L'Hôpital.
+        <!-- Sección Explicativa de Sintaxis -->
+        <div class="section">
+            <h2>Cómo escribir tus funciones</h2>
+            <ul>
+                <li>Para potencias usa <code>^</code>, ejemplo: <code>x^2</code></li>
+                <li>Para raíces usa <code>sqrt(x)</code></li>
+                <li>Logaritmos: <code>log(x)</code> para base e, <code>log10(x)</code> para base 10, <code>log2(x)</code> para base 2</li>
+                <li>Funciones trigonométricas: <code>sin(x), cos(x), tan(x)</code></li>
+                <li>Exponencial: <code>exp(x)</code></li>
+            </ul>
+            <p>Usa el autocompletado mientras escribes para ver sugerencias de funciones.</p>
         </div>
     </div>
 
