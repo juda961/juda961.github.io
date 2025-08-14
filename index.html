@@ -51,23 +51,39 @@
     </div>
 
     <script>
-    // Lista de sugerencias para autocompletar
+    // --- Sugerencias para autocompletado ---
     const funciones = ['sin(', 'cos(', 'tan(', 'log(', 'log10(', 'sqrt(', 'exp(', 'x'];
 
-    function autocomplete(input) {
+    function setupAutocomplete(input, suggestions) {
+        let listContainer = document.createElement('div');
+        listContainer.classList.add('autocomplete-list');
+        input.parentNode.appendChild(listContainer);
+
         input.addEventListener('input', () => {
             let val = input.value;
-            funciones.forEach(func => {
-                if (func.startsWith(val) && val !== func) {
-                    input.value = func;
-                }
+            listContainer.innerHTML = '';
+            if (!val) return;
+
+            let matches = suggestions.filter(s => s.startsWith(val));
+            matches.forEach(match => {
+                let item = document.createElement('div');
+                item.textContent = match;
+                item.addEventListener('click', () => {
+                    input.value = match;
+                    listContainer.innerHTML = '';
+                });
+                listContainer.appendChild(item);
             });
+        });
+
+        input.addEventListener('blur', () => {
+            setTimeout(() => listContainer.innerHTML = '', 100);
         });
     }
 
-    document.querySelectorAll('.autocomplete').forEach(input => autocomplete(input));
+    document.querySelectorAll('.autocomplete').forEach(input => setupAutocomplete(input, funciones));
 
-    // Límite con L'Hôpital
+    // --- Límite con L'Hôpital ---
     function calcularLHopital() {
         let fx = document.getElementById("fx").value;
         let gx = document.getElementById("gx").value;
@@ -106,7 +122,7 @@
         }
     }
 
-    // Derivadas generales
+    // --- Derivadas generales ---
     function calcularDerivada() {
         let f = document.getElementById("f-deriv").value;
         let resDiv = document.getElementById("resultado-derivada");
