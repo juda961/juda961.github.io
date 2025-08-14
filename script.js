@@ -10,7 +10,7 @@ function calcularLHopital() {
         let gVal = math.evaluate(gx, {x: x0});
 
         if (fVal === 0 && gVal === 0) {
-            // Forma indeterminada 0/0 -> aplicar L'Hôpital
+            // Forma 0/0 → aplicar L'Hôpital
             let fDer = math.derivative(fx, "x").toString();
             let gDer = math.derivative(gx, "x").toString();
 
@@ -19,28 +19,28 @@ function calcularLHopital() {
 
             let resultado = fDerVal / gDerVal;
 
+            // Comprobación de infinito
+            let contenido = "";
+            if (!isFinite(resultado)) {
+                contenido = `<span class="infinito">Límite tiende a ${resultado > 0 ? "+" : "-"}∞</span>`;
+            } else {
+                contenido = `Límite según L'Hôpital = ${resultado}`;
+            }
+
             resultadoDiv.innerHTML = `
                 <b>Forma indeterminada 0/0 detectada.</b><br>
                 f'(x) = ${fDer} <br>
                 g'(x) = ${gDer} <br>
-                Límite según L'Hôpital = ${resultado}
-            `;
-        } else if (gVal === 0) {
-            // División entre 0 y numerador != 0 -> infinito
-            let signo = fVal > 0 ? "+" : "-";
-            let explicacion = fVal > 0 ? 
-                "El límite crece sin acotación hacia +∞ cuando x se aproxima a " + x0 :
-                "El límite decrece sin acotación hacia -∞ cuando x se aproxima a " + x0;
-
-            resultadoDiv.innerHTML = `
-                <b>División entre cero detectada.</b><br>
-                Límite tiende a ${signo}∞<br>
-                <i>${explicacion}</i>
+                ${contenido}
             `;
         } else {
-            // División normal
+            // No es indeterminada
             let limite = fVal / gVal;
-            resultadoDiv.innerHTML = `No es forma indeterminada. Resultado directo = ${limite}`;
+            if (!isFinite(limite)) {
+                resultadoDiv.innerHTML = `<span class="infinito">Resultado = ${limite > 0 ? "+" : "-"}∞</span>`;
+            } else {
+                resultadoDiv.innerHTML = `No es forma indeterminada. Resultado directo = ${limite}`;
+            }
         }
 
         resultadoDiv.classList.add("mostrar");
@@ -68,7 +68,9 @@ function calcularDerivada() {
 }
 
 // --- Autocompletado dinámico ---
-const funcionesMathJS = ["sin(", "cos(", "tan(", "log(", "log2(", "log10(", "exp(", "sqrt(", "^"];
+const funcionesMathJS = [
+    "sin(", "cos(", "tan(", "log(", "log2(", "log10(", "exp(", "sqrt(", "^"
+];
 
 document.querySelectorAll(".autocomplete").forEach(input => {
     input.parentNode.style.position = "relative";
@@ -144,3 +146,4 @@ function closeAllLists(elmnt) {
 document.addEventListener("click", function(e) {
     closeAllLists(e.target);
 });
+
