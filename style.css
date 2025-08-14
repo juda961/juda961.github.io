@@ -45,8 +45,12 @@ input[type="text"], input[type="number"] {
     border-radius: 8px;
     font-size: 16px;
     box-sizing: border-box;
+    outline: none;        /* quitar borde de focus */
+    box-shadow: none;      /* quitar sombra de focus */
+    background-color: #fff; 
 }
 
+/* Botones */
 button {
     background-color: #0078D7;
     color: white;
@@ -85,18 +89,18 @@ button:hover {
 
 /* --- Autocomplete dropdown estilo profesional --- */
 .autocomplete-list {
-    position: absolute;   /* relativo al padre */
-    top: 100%;            /* justo debajo del input */
+    position: absolute;  
+    top: calc(100% + 2px); /* separa un poquito del input */
     left: 0;
     background: #ffffff;
     border: 1px solid #ccc;
-    border-radius: 8px;
+    border-top: none;            /* evita barra extra arriba */
+    border-radius: 0 0 8px 8px;  /* solo esquinas inferiores redondeadas */
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     max-height: 200px;
     overflow-y: auto;
-    width: 100%;          /* igual que el input */
+    width: 100%;                 
     z-index: 1000;
-    margin-top: 2px;      /* pequeño espacio debajo del input */
     font-size: 16px;
 }
 
@@ -110,7 +114,6 @@ button:hover {
 .autocomplete-active {
     background-color: #0078D7;
     color: white;
-    border-radius: 6px;
 }
 
 /* --- Sección de explicación MathJS --- */
@@ -125,10 +128,10 @@ button:hover {
 
 /* --- Línea separadora elegante --- */
 hr {
-    border: none;               /* quitar borde por defecto */
-    height: 2px;                /* grosor de la línea */
-    background-color: #0078D7;  /* color azul */
-    width: 80%;                 /* ancho relativo al contenedor */
-    margin: 30px auto;          /* centrado y espacio arriba/abajo */
-    border-radius: 1px;         /* bordes redondeados sutiles */
+    border: none;               
+    height: 2px;                
+    background-color: #0078D7;  
+    width: 80%;                 
+    margin: 30px auto;          
+    border-radius: 1px;         
 }
