@@ -1,15 +1,3 @@
-// --- Función para convertir decimal a fracción simplificada ---
-function decimalASimplificada(valor) {
-    try {
-        let frac = math.fraction(valor); // MathJS convierte a fracción
-        // Simplificar la fracción usando gcd
-        let gcd = math.gcd(frac.n, frac.d);
-        return `${frac.n / gcd}/${frac.d / gcd}`;
-    } catch {
-        return valor; // Si no se puede simplificar, retorna el valor original
-    }
-}
-
 // --- Función L'Hôpital ---
 function calcularLHopital() {
     let fx = document.getElementById("fx").value;
@@ -20,35 +8,64 @@ function calcularLHopital() {
     try {
         let fVal = math.evaluate(fx, {x: x0});
         let gVal = math.evaluate(gx, {x: x0});
-        let resultado, resultadoFraccion;
 
-        if (!isFinite(fVal / gVal)) {
-            resultado = (fVal / gVal > 0) ? "+∞" : "-∞";
-            resultadoFraccion = "";
-        } else if (fVal === 0 && gVal === 0) {
+        if (fVal === 0 && gVal === 0) {
             let fDer = math.derivative(fx, "x").toString();
             let gDer = math.derivative(gx, "x").toString();
+
             let fDerVal = math.evaluate(fDer, {x: x0});
             let gDerVal = math.evaluate(gDer, {x: x0});
-            resultado = fDerVal / gDerVal;
-            resultadoFraccion = ` ≈ ${decimalASimplificada(resultado)}`;
+
+            let resultado = fDerVal / gDerVal;
+
+            // Convertir a fracción
+            let resultadoFrac;
+            try {
+                resultadoFrac = math.format(math.fraction(resultado), {fraction: 'ratio'});
+            } catch {
+                resultadoFrac = 'No se pudo simplificar';
+            }
+
+            // Manejo de infinitos
+            if (!isFinite(resultado)) {
+                resultadoDiv.style.color = 'red';
+                resultado = resultado > 0 ? '∞' : '-∞';
+                resultadoFrac = resultado; 
+            } else {
+                resultadoDiv.style.color = 'black';
+            }
+
             resultadoDiv.innerHTML = `
                 <b>Forma indeterminada 0/0 detectada.</b><br>
                 f'(x) = ${fDer} <br>
                 g'(x) = ${gDer} <br>
-                Límite según L'Hôpital = ${resultado}${resultadoFraccion}
+                Límite según L'Hôpital = ${resultado} (${resultadoFrac})
             `;
-            resultadoDiv.classList.add("mostrar");
-            return;
         } else {
-            resultado = fVal / gVal;
-            resultadoFraccion = ` ≈ ${decimalASimplificada(resultado)}`;
+            let limite = fVal / gVal;
+
+            let limiteFrac;
+            try {
+                limiteFrac = math.format(math.fraction(limite), {fraction: 'ratio'});
+            } catch {
+                limiteFrac = 'No se pudo simplificar';
+            }
+
+            if (!isFinite(limite)) {
+                resultadoDiv.style.color = 'red';
+                limite = limite > 0 ? '∞' : '-∞';
+                limiteFrac = limite;
+            } else {
+                resultadoDiv.style.color = 'black';
+            }
+
+            resultadoDiv.innerHTML = `No es forma indeterminada. Resultado directo = ${limite} (${limiteFrac})`;
         }
 
-        resultadoDiv.innerHTML = `Resultado = ${resultado}${resultadoFraccion}`;
         resultadoDiv.classList.add("mostrar");
     } catch (error) {
         resultadoDiv.innerHTML = "Error en la expresión. Revisa la sintaxis.";
+        resultadoDiv.style.color = 'red';
         resultadoDiv.classList.add("mostrar");
     }
 }
@@ -60,14 +77,20 @@ function calcularDerivada() {
 
     try {
         let derivada = math.derivative(fx, "x").toString();
-        // Evaluar derivada en x=1 para mostrar fracción simplificada
-        let valorDerivada = math.evaluate(derivada, {x: 1});
-        let frac = decimalASimplificada(valorDerivada);
+        let derivadaVal = math.evaluate(derivada, {x:1}); // para mostrar decimal si es constante
+        let derivadaFrac;
+        try {
+            derivadaFrac = math.format(math.fraction(derivadaVal), {fraction: 'ratio'});
+        } catch {
+            derivadaFrac = 'No se pudo simplificar';
+        }
 
-        resultadoDiv.innerHTML = `<b>Derivada:</b> ${derivada} (Valor ejemplo x=1 ≈ ${frac})`;
+        resultadoDiv.innerHTML = `<b>Derivada:</b> ${derivada} (${derivadaFrac})`;
+        resultadoDiv.style.color = 'black';
         resultadoDiv.classList.add("mostrar");
     } catch (error) {
         resultadoDiv.innerHTML = "Error en la expresión. Revisa la sintaxis.";
+        resultadoDiv.style.color = 'red';
         resultadoDiv.classList.add("mostrar");
     }
 }
@@ -149,3 +172,5 @@ function closeAllLists(elmnt) {
 document.addEventListener("click", function(e) {
     closeAllLists(e.target);
 });
+
+
