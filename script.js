@@ -1,3 +1,15 @@
+// --- Función para convertir decimal a fracción simplificada ---
+function decimalASimplificada(valor) {
+    try {
+        let frac = math.fraction(valor); // MathJS convierte a fracción
+        // Simplificar la fracción usando gcd
+        let gcd = math.gcd(frac.n, frac.d);
+        return `${frac.n / gcd}/${frac.d / gcd}`;
+    } catch {
+        return valor; // Si no se puede simplificar, retorna el valor original
+    }
+}
+
 // --- Función L'Hôpital ---
 function calcularLHopital() {
     let fx = document.getElementById("fx").value;
@@ -8,32 +20,36 @@ function calcularLHopital() {
     try {
         let fVal = math.evaluate(fx, {x: x0});
         let gVal = math.evaluate(gx, {x: x0});
+        let resultado, resultadoFraccion;
 
-        let resultadoTexto = "";
-        if (fVal === 0 && gVal === 0) {
+        if (!isFinite(fVal / gVal)) {
+            resultado = (fVal / gVal > 0) ? "+∞" : "-∞";
+            resultadoFraccion = "";
+        } else if (fVal === 0 && gVal === 0) {
             let fDer = math.derivative(fx, "x").toString();
             let gDer = math.derivative(gx, "x").toString();
             let fDerVal = math.evaluate(fDer, {x: x0});
             let gDerVal = math.evaluate(gDer, {x: x0});
-            let resultado = fDerVal / gDerVal;
-
-            resultadoTexto = formatearResultado(resultado);
+            resultado = fDerVal / gDerVal;
+            resultadoFraccion = ` ≈ ${decimalASimplificada(resultado)}`;
             resultadoDiv.innerHTML = `
                 <b>Forma indeterminada 0/0 detectada.</b><br>
                 f'(x) = ${fDer} <br>
                 g'(x) = ${gDer} <br>
-                Límite según L'Hôpital = <span class="infinito">${resultadoTexto}</span>
+                Límite según L'Hôpital = ${resultado}${resultadoFraccion}
             `;
+            resultadoDiv.classList.add("mostrar");
+            return;
         } else {
-            let resultado = fVal / gVal;
-            resultadoTexto = formatearResultado(resultado);
-            resultadoDiv.innerHTML = `No es forma indeterminada. Resultado directo = <span class="infinito">${resultadoTexto}</span>`;
+            resultado = fVal / gVal;
+            resultadoFraccion = ` ≈ ${decimalASimplificada(resultado)}`;
         }
 
-        resultadoDiv.style.display = "block";
+        resultadoDiv.innerHTML = `Resultado = ${resultado}${resultadoFraccion}`;
+        resultadoDiv.classList.add("mostrar");
     } catch (error) {
         resultadoDiv.innerHTML = "Error en la expresión. Revisa la sintaxis.";
-        resultadoDiv.style.display = "block";
+        resultadoDiv.classList.add("mostrar");
     }
 }
 
@@ -44,27 +60,22 @@ function calcularDerivada() {
 
     try {
         let derivada = math.derivative(fx, "x").toString();
-        resultadoDiv.innerHTML = `<b>Derivada:</b> ${derivada}`;
-        resultadoDiv.style.display = "block";
+        // Evaluar derivada en x=1 para mostrar fracción simplificada
+        let valorDerivada = math.evaluate(derivada, {x: 1});
+        let frac = decimalASimplificada(valorDerivada);
+
+        resultadoDiv.innerHTML = `<b>Derivada:</b> ${derivada} (Valor ejemplo x=1 ≈ ${frac})`;
+        resultadoDiv.classList.add("mostrar");
     } catch (error) {
         resultadoDiv.innerHTML = "Error en la expresión. Revisa la sintaxis.";
-        resultadoDiv.style.display = "block";
+        resultadoDiv.classList.add("mostrar");
     }
-}
-
-// --- Formatear resultado para infinito ---
-function formatearResultado(valor) {
-    if (!isFinite(valor)) {
-        if (valor > 0) return "∞ (tiende a +∞)";
-        else return "-∞ (tiende a -∞)";
-    }
-    return valor;
 }
 
 // --- Autocompletado dinámico ---
 const funcionesMathJS = ["sin(", "cos(", "tan(", "log(", "log2(", "log10(", "exp(", "sqrt(", "^"];
 
-document.querySelectorAll(".autocomplete input").forEach(input => {
+document.querySelectorAll(".autocomplete").forEach(input => {
     input.parentNode.style.position = "relative";
 
     input.addEventListener("input", function() {
@@ -138,9 +149,3 @@ function closeAllLists(elmnt) {
 document.addEventListener("click", function(e) {
     closeAllLists(e.target);
 });
-
-
-document.addEventListener("click", function(e) {
-    closeAllLists(e.target);
-});
-
