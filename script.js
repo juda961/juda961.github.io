@@ -8,8 +8,8 @@ function calcularLHopital() {
     try {
         let fVal = math.evaluate(fx, {x: x0});
         let gVal = math.evaluate(gx, {x: x0});
-
         let resultadoTexto = "";
+
         if (fVal === 0 && gVal === 0) {
             let fDer = math.derivative(fx, "x").toString();
             let gDer = math.derivative(gx, "x").toString();
@@ -64,7 +64,7 @@ function formatearResultado(valor) {
 // --- Autocompletado dinámico ---
 const funcionesMathJS = ["sin(", "cos(", "tan(", "log(", "log2(", "log10(", "exp(", "sqrt(", "^"];
 
-document.querySelectorAll(".autocomplete input").forEach(input => {
+document.querySelectorAll(".autocomplete").forEach(input => {
     input.parentNode.style.position = "relative";
 
     input.addEventListener("input", function() {
@@ -93,10 +93,8 @@ document.querySelectorAll(".autocomplete input").forEach(input => {
     input.addEventListener("keydown", function(e) {
         let list = this.parentNode.querySelector(".autocomplete-list");
         if (!list) return;
-
         let items = list.getElementsByTagName("div");
         if (!items) return;
-
         let current = list.querySelector(".autocomplete-active");
 
         if (e.key === "ArrowDown") {
@@ -139,5 +137,7 @@ document.addEventListener("click", function(e) {
     closeAllLists(e.target);
 });
 
-
+// --- Conectar botones ---
+document.getElementById("btn-lhopital").addEventListener("click", calcularLHopital);
+document.getElementById("btn-deriv").addEventListener("click", calcularDerivada);
 
