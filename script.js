@@ -1,48 +1,43 @@
+// --- Función L'Hôpital ---
 function calcularLHopital() {
     let fx = document.getElementById("fx").value;
     let gx = document.getElementById("gx").value;
     let x0 = parseFloat(document.getElementById("x0").value);
     const resultadoDiv = document.getElementById("resultado-lhopital");
 
-    function mostrarResultado(valor) {
-        let texto;
-        if (valor === Infinity) texto = "+∞";
-        else if (valor === -Infinity) texto = "-∞";
-        else texto = valor;
-        return `<span class="${isFinite(valor) ? '' : 'infinito'}">${texto}</span>`;
-    }
-
     try {
         let fVal = math.evaluate(fx, {x: x0});
         let gVal = math.evaluate(gx, {x: x0});
 
+        let resultadoTexto = "";
         if (fVal === 0 && gVal === 0) {
             let fDer = math.derivative(fx, "x").toString();
             let gDer = math.derivative(gx, "x").toString();
-
             let fDerVal = math.evaluate(fDer, {x: x0});
             let gDerVal = math.evaluate(gDer, {x: x0});
-
             let resultado = fDerVal / gDerVal;
 
+            resultadoTexto = formatearResultado(resultado);
             resultadoDiv.innerHTML = `
                 <b>Forma indeterminada 0/0 detectada.</b><br>
                 f'(x) = ${fDer} <br>
                 g'(x) = ${gDer} <br>
-                Límite según L'Hôpital = ${mostrarResultado(resultado)}
+                Límite según L'Hôpital = <span class="infinito">${resultadoTexto}</span>
             `;
         } else {
-            let limite = fVal / gVal;
-            resultadoDiv.innerHTML = `No es forma indeterminada. Resultado directo = ${mostrarResultado(limite)}`;
+            let resultado = fVal / gVal;
+            resultadoTexto = formatearResultado(resultado);
+            resultadoDiv.innerHTML = `No es forma indeterminada. Resultado directo = <span class="infinito">${resultadoTexto}</span>`;
         }
 
-        resultadoDiv.style.display = 'block';
+        resultadoDiv.style.display = "block";
     } catch (error) {
         resultadoDiv.innerHTML = "Error en la expresión. Revisa la sintaxis.";
-        resultadoDiv.style.display = 'block';
+        resultadoDiv.style.display = "block";
     }
 }
 
+// --- Función Derivadas Generales ---
 function calcularDerivada() {
     let fx = document.getElementById("f-deriv").value;
     const resultadoDiv = document.getElementById("resultado-derivada");
@@ -50,11 +45,20 @@ function calcularDerivada() {
     try {
         let derivada = math.derivative(fx, "x").toString();
         resultadoDiv.innerHTML = `<b>Derivada:</b> ${derivada}`;
-        resultadoDiv.style.display = 'block';
+        resultadoDiv.style.display = "block";
     } catch (error) {
         resultadoDiv.innerHTML = "Error en la expresión. Revisa la sintaxis.";
-        resultadoDiv.style.display = 'block';
+        resultadoDiv.style.display = "block";
     }
+}
+
+// --- Formatear resultado para infinito ---
+function formatearResultado(valor) {
+    if (!isFinite(valor)) {
+        if (valor > 0) return "∞ (tiende a +∞)";
+        else return "-∞ (tiende a -∞)";
+    }
+    return valor;
 }
 
 // --- Autocompletado dinámico ---
@@ -134,3 +138,9 @@ function closeAllLists(elmnt) {
 document.addEventListener("click", function(e) {
     closeAllLists(e.target);
 });
+
+
+document.addEventListener("click", function(e) {
+    closeAllLists(e.target);
+});
+
