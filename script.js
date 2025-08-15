@@ -1,3 +1,4 @@
+// --- Función L'Hôpital ---
 function calcularLHopital() {
     let fx = document.getElementById("fx").value;
     let gx = document.getElementById("gx").value;
@@ -21,17 +22,17 @@ function calcularLHopital() {
                 <b>Forma indeterminada 0/0 detectada.</b><br>
                 f'(x) = ${fDer} <br>
                 g'(x) = ${gDer} <br>
-                Límite según L'Hôpital = ${resultado}
+                Límite según L'Hôpital = <span class="${isFinite(resultado) ? '' : 'infinito'}">${resultado}</span>
             `;
         } else {
             let limite = fVal / gVal;
-            resultadoDiv.innerHTML = `No es forma indeterminada. Resultado directo = ${limite}`;
+            resultadoDiv.innerHTML = `No es forma indeterminada. Resultado directo = <span class="${isFinite(limite) ? '' : 'infinito'}">${limite}</span>`;
         }
 
-        resultadoDiv.classList.add("mostrar");
+        resultadoDiv.style.display = 'block';
     } catch (error) {
         resultadoDiv.innerHTML = "Error en la expresión. Revisa la sintaxis.";
-        resultadoDiv.classList.add("mostrar");
+        resultadoDiv.style.display = 'block';
     }
 }
 
@@ -43,17 +44,17 @@ function calcularDerivada() {
     try {
         let derivada = math.derivative(fx, "x").toString();
         resultadoDiv.innerHTML = `<b>Derivada:</b> ${derivada}`;
-        resultadoDiv.classList.add("mostrar");
+        resultadoDiv.style.display = 'block';
     } catch (error) {
         resultadoDiv.innerHTML = "Error en la expresión. Revisa la sintaxis.";
-        resultadoDiv.classList.add("mostrar");
+        resultadoDiv.style.display = 'block';
     }
 }
 
 // --- Autocompletado dinámico ---
 const funcionesMathJS = ["sin(", "cos(", "tan(", "log(", "log2(", "log10(", "exp(", "sqrt(", "^"];
 
-document.querySelectorAll(".autocomplete").forEach(input => {
+document.querySelectorAll(".autocomplete input").forEach(input => {
     input.parentNode.style.position = "relative";
 
     input.addEventListener("input", function() {
@@ -127,4 +128,5 @@ function closeAllLists(elmnt) {
 document.addEventListener("click", function(e) {
     closeAllLists(e.target);
 });
+
 
