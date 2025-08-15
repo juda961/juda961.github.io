@@ -11,35 +11,43 @@
     <div class="container">
         <h1>Calculadora Matemática</h1>
 
+        <!-- Notas -->
         <div class="notas">
             <b>Notas:</b>
-            <p>Escribe las funciones usando <code>*</code> para multiplicar, <code>^</code> para potencias y <code>log(x)/log(base)</code> para logaritmos con cualquier base. Usa <code>x</code> como variable.</p>
+            <ul>
+                <li>Usa funciones como sin(x), cos(x), tan(x), log(x), log2(x), log10(x), exp(x), sqrt(x), y potencias con ^</li>
+                <li>Para logaritmos con base distinta de 10, usa log(x)/log(base)</li>
+            </ul>
         </div>
 
-        <section class="calculo">
-            <h2>L’Hôpital</h2>
-            <label>f(x):</label>
-            <input type="text" id="fx" placeholder="Ejemplo: sin(x)">
-
-            <label>g(x):</label>
-            <input type="text" id="gx" placeholder="Ejemplo: x">
-
+        <!-- Sección L'Hôpital -->
+        <div class="section">
+            <h2>Regla de L'Hôpital</h2>
+            <div class="autocomplete">
+                <label>f(x):</label>
+                <input type="text" id="fx" class="autocomplete" placeholder="Ejemplo: sin(x)">
+            </div>
+            <div class="autocomplete">
+                <label>g(x):</label>
+                <input type="text" id="gx" class="autocomplete" placeholder="Ejemplo: x">
+            </div>
             <label>Valor de x →</label>
             <input type="number" id="x0" placeholder="Ejemplo: 0">
-
-            <button onclick="calcularLHopital()">Calcular L’Hôpital</button>
+            <button onclick="calcularLHopital()">Calcular L'Hôpital</button>
             <div id="resultado-lhopital" class="resultado"></div>
-        </section>
+        </div>
 
-        <section class="calculo">
+        <!-- Sección Derivadas -->
+        <div class="section">
             <h2>Derivadas Generales</h2>
-            <label>Función:</label>
-            <input type="text" id="f-deriv" placeholder="Ejemplo: x^2 + sin(x)">
+            <div class="autocomplete">
+                <label>Función:</label>
+                <input type="text" id="f-deriv" class="autocomplete" placeholder="Ejemplo: x^2 + 3*x + 1">
+            </div>
             <button onclick="calcularDerivada()">Calcular Derivada</button>
             <div id="resultado-derivada" class="resultado"></div>
-        </section>
+        </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
