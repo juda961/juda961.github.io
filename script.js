@@ -17,20 +17,19 @@ function calcularLHopital() {
             let gDerVal = math.evaluate(gDer, {x: x0});
 
             let resultado = fDerVal / gDerVal;
+            let color = (!isFinite(resultado)) ? "red" : "#0288d1";
 
             resultadoDiv.innerHTML = `
                 <b>Forma indeterminada 0/0 detectada.</b><br>
                 f'(x) = ${fDer} <br>
                 g'(x) = ${gDer} <br>
-                Límite según L'Hôpital = ${resultado}
+                Límite según L'Hôpital = <span style="color:${color}">${resultado}</span>
             `;
         } else {
             let limite = fVal / gVal;
-            if (!isFinite(limite)) {
-                resultadoDiv.innerHTML = `No es forma indeterminada. Resultado = ∞`;
-            } else {
-                resultadoDiv.innerHTML = `No es forma indeterminada. Resultado = ${limite}`;
-            }
+            let color = (!isFinite(limite)) ? "red" : "#0288d1";
+
+            resultadoDiv.innerHTML = `No es forma indeterminada. Resultado = <span style="color:${color}">${limite}</span>`;
         }
 
         resultadoDiv.style.display = "block";
@@ -54,14 +53,4 @@ function calcularDerivada() {
         resultadoDiv.style.display = "block";
     }
 }
-
-// --- Autocompletado simple ---
-const funcionesMathJS = ["sin(", "cos(", "tan(", "log(", "log2(", "log10(", "exp(", "sqrt(", "^"];
-document.querySelectorAll(".autocomplete").forEach(input => {
-    input.addEventListener("input", function() {
-        // Mantener autocomplete básico, sin interferir con escritura
-    });
-});
-
-
 
