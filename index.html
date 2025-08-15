@@ -23,28 +23,28 @@
         <!-- Sección L'Hôpital -->
         <div class="section">
             <h2>Regla de L'Hôpital</h2>
-            <div class="autocomplete">
+            <div>
                 <label>f(x):</label>
                 <input type="text" id="fx" class="autocomplete" placeholder="Ejemplo: sin(x)">
             </div>
-            <div class="autocomplete">
+            <div>
                 <label>g(x):</label>
                 <input type="text" id="gx" class="autocomplete" placeholder="Ejemplo: x">
             </div>
             <label>Valor de x →</label>
             <input type="number" id="x0" placeholder="Ejemplo: 0">
-            <button onclick="calcularLHopital()">Calcular L'Hôpital</button>
+            <button id="btn-lhopital">Calcular L'Hôpital</button>
             <div id="resultado-lhopital" class="resultado"></div>
         </div>
 
         <!-- Sección Derivadas -->
         <div class="section">
             <h2>Derivadas Generales</h2>
-            <div class="autocomplete">
+            <div>
                 <label>Función:</label>
                 <input type="text" id="f-deriv" class="autocomplete" placeholder="Ejemplo: x^2 + 3*x + 1">
             </div>
-            <button onclick="calcularDerivada()">Calcular Derivada</button>
+            <button id="btn-deriv">Calcular Derivada</button>
             <div id="resultado-derivada" class="resultado"></div>
         </div>
     </div>
