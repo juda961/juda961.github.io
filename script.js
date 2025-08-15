@@ -4,6 +4,14 @@ function calcularLHopital() {
     let x0 = parseFloat(document.getElementById("x0").value);
     const resultadoDiv = document.getElementById("resultado-lhopital");
 
+    function mostrarResultado(valor) {
+        let texto;
+        if (valor === Infinity) texto = "+∞";
+        else if (valor === -Infinity) texto = "-∞";
+        else texto = valor;
+        return `<span class="${isFinite(valor) ? '' : 'infinito'}">${texto}</span>`;
+    }
+
     try {
         let fVal = math.evaluate(fx, {x: x0});
         let gVal = math.evaluate(gx, {x: x0});
@@ -21,11 +29,11 @@ function calcularLHopital() {
                 <b>Forma indeterminada 0/0 detectada.</b><br>
                 f'(x) = ${fDer} <br>
                 g'(x) = ${gDer} <br>
-                Límite según L'Hôpital = <span class="${isFinite(resultado) ? '' : 'infinito'}">${resultado}</span>
+                Límite según L'Hôpital = ${mostrarResultado(resultado)}
             `;
         } else {
             let limite = fVal / gVal;
-            resultadoDiv.innerHTML = `No es forma indeterminada. Resultado directo = <span class="${isFinite(limite) ? '' : 'infinito'}">${limite}</span>`;
+            resultadoDiv.innerHTML = `No es forma indeterminada. Resultado directo = ${mostrarResultado(limite)}`;
         }
 
         resultadoDiv.style.display = 'block';
@@ -35,7 +43,6 @@ function calcularLHopital() {
     }
 }
 
-// --- Función Derivadas Generales ---
 function calcularDerivada() {
     let fx = document.getElementById("f-deriv").value;
     const resultadoDiv = document.getElementById("resultado-derivada");
@@ -127,6 +134,3 @@ function closeAllLists(elmnt) {
 document.addEventListener("click", function(e) {
     closeAllLists(e.target);
 });
-
-
-
