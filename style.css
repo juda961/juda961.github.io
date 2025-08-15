@@ -1,7 +1,7 @@
 /* --- Estilo general --- */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #d3d3d3; /* fondo gris */
+    background-color: #dcdcdc; /* Gris */
     margin: 0;
     padding: 0;
 }
@@ -10,7 +10,7 @@ body {
     max-width: 900px;
     margin: 30px auto;
     padding: 20px;
-    background-color: #f4f4f4;
+    background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
@@ -30,7 +30,7 @@ h2 {
 
 /* --- Notas resaltadas --- */
 .notas {
-    background-color: #fff8b0; /* amarillo claro */
+    background-color: #fff9b1; /* amarillo suave */
     border-left: 5px solid #1e90ff;
     padding: 10px 15px;
     margin-bottom: 15px;
@@ -71,8 +71,8 @@ button:hover {
 
 /* --- Resultados --- */
 .resultado {
-    display: none; /* aparece solo al calcular */
-    background-color: #e0e0e0; /* gris más claro */
+    display: none; /* Aparece solo al calcular */
+    background-color: #f0f8ff;
     border-left: 5px solid #1e90ff;
     padding: 10px 15px;
     margin-top: 10px;
@@ -80,9 +80,14 @@ button:hover {
     word-wrap: break-word;
 }
 
+/* Para infinito en rojo */
+.resultado.infinito {
+    color: red;
+}
+
 /* --- Dropdown Autocompletado --- */
 .autocomplete {
-    position: relative;
+    position: relative; /* Para dropdown */
 }
 
 .autocomplete-list {
