@@ -1,4 +1,3 @@
-// --- Función L'Hôpital ---
 function calcularLHopital() {
     let fx = document.getElementById("fx").value;
     let gx = document.getElementById("gx").value;
@@ -128,5 +127,6 @@ function closeAllLists(elmnt) {
 document.addEventListener("click", function(e) {
     closeAllLists(e.target);
 });
+
 
 
